@@ -4243,3 +4243,12 @@
     transform: none;
   }
 }
+
+/* Footer bar removed: pages without a footer still clear the fixed status bar */
+.page-stage:last-child {
+  padding-bottom: var(--bar-h);
+}
+.site-foot__top {
+  padding-bottom: 0;
+  border-bottom: 0;
+}

@@ -4,32 +4,8 @@ import { useRouter } from '../lib/router';
 export function SiteFooter() {
   const { navigate, path } = useRouter();
 
-  if (path === '/') {
-    return (
-      <footer className="site-foot site-foot--compact">
-        <div className="shell site-foot__compact-inner mono mono--sm">
-          <span>NIA ZAGAR / PORTFOLIO</span>
-          <span>NEUROSCIENCE × CREATIVE EXPRESSION</span>
-          <span>END / 2026</span>
-        </div>
-      </footer>
-    );
-  }
-
-  // The big contact section only appears on About; other pages get the slim bar.
-  if (path !== '/about') {
-    return (
-      <footer className="site-foot site-foot--slim">
-        <div className="shell">
-          <div className="site-foot__bottom">
-            <span>© {new Date().getFullYear()} {site.name} — ALL SIGNALS RESERVED</span>
-            <span>{site.location}</span>
-            <span>DESIGNED IN THE OPEN · v4.26</span>
-          </div>
-        </div>
-      </footer>
-    );
-  }
+  // Only About has a footer (the contact section); other pages end with their content.
+  if (path !== '/about') return null;
 
   return (
     <footer className="site-foot" data-reveal>
@@ -79,11 +55,6 @@ export function SiteFooter() {
               ))}
             </div>
           </div>
-        </div>
-        <div className="site-foot__bottom">
-          <span>© {new Date().getFullYear()} {site.name} — ALL SIGNALS RESERVED</span>
-          <span>{site.location}</span>
-          <span>DESIGNED IN THE OPEN · v4.26</span>
         </div>
       </div>
     </footer>
