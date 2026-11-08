@@ -33,6 +33,13 @@ jobs:
 
       - name: Build website
         run: npm run build
+        
+      - name: Inspect generated website
+        run: |
+          echo "Generated index.html:"
+          cat dist/index.html
+          echo "Generated assets:"
+          ls -lah dist/assets
 
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
