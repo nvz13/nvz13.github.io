@@ -320,9 +320,10 @@
   font-size: 12.5px;
 }
 
-/* ---------------- custom cursor ---------------- */
-/* Sized and outlined to stay readable on cream, dark and photo backgrounds:
-   every mark has an ink stroke plus a halo in the page background colour. */
+/* ---------------- custom cursor ----------------
+   A fine ring and a small centre dot. Each mark is drawn in ink with a soft
+   halo in the page colour, so it stays clear on cream, dark and photos.
+   The dot sits exactly on the pointer; the ring glides after it. */
 
 .cursor {
   position: fixed;
@@ -350,67 +351,71 @@ body.has-custom-cursor .cursor {
 
 .cursor__dot {
   position: absolute;
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
   border-radius: 50%;
-  background: var(--accent);
-  border: 1.5px solid var(--ink);
-  box-shadow: 0 0 0 2px var(--bg);
-  transition: transform 0.25s var(--ease-out);
+  background: var(--ink);
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--bg) 85%, transparent);
+  transition: transform 0.3s var(--ease-out), opacity 0.3s;
 }
 
 .cursor__ring {
   position: absolute;
-  width: 42px;
-  height: 42px;
-  margin: -21px 0 0 -21px;
-  border: 2px solid var(--ink);
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border: 1.5px solid var(--ink);
   border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--bg), inset 0 0 0 1.5px var(--bg);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bg) 70%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--bg) 70%, transparent),
+    0 2px 12px -4px rgba(36, 3, 16, 0.25);
   display: grid;
   place-items: center;
-  transition: width 0.35s var(--ease-out), height 0.35s var(--ease-out),
-    margin 0.35s var(--ease-out), background 0.3s, border-color 0.3s,
-    transform 0.2s var(--ease-out);
+  transition: width 0.45s var(--ease-out), height 0.45s var(--ease-out),
+    margin 0.45s var(--ease-out), background-color 0.35s, border-color 0.35s,
+    transform 0.25s var(--ease-out);
 }
 
 .cursor__label {
   font-family: var(--font-mono);
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #240310;
+  color: var(--ink);
   opacity: 0;
-  transform: scale(0.7);
-  transition: opacity 0.25s, transform 0.25s var(--ease-out);
+  transform: translateY(2px);
+  transition: opacity 0.3s, transform 0.3s var(--ease-out);
   white-space: nowrap;
   text-align: center;
   line-height: 1.2;
-  max-width: 86px;
+  max-width: 84px;
 }
 
+/* Over something clickable: the ring opens into a frosted lens with the label. */
 .cursor.is-active .cursor__ring {
-  width: 68px;
-  height: 68px;
-  margin: -34px 0 0 -34px;
-  background: var(--accent);
-  border-color: var(--ink);
-  box-shadow: 0 0 0 2px var(--bg), 0 0 18px var(--glow);
+  width: 72px;
+  height: 72px;
+  margin: -36px 0 0 -36px;
+  border-color: var(--accent-deep);
+  background-color: color-mix(in srgb, var(--bg) 72%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
 .cursor.is-active .cursor__label {
   opacity: 1;
-  transform: scale(1);
+  transform: none;
 }
 
 .cursor.is-active .cursor__dot {
+  opacity: 0;
   transform: scale(0);
 }
 
 .cursor.is-down .cursor__ring {
-  transform: scale(0.82);
+  transform: scale(0.88);
 }
 
 /* ---------------- boot loader ---------------- */
