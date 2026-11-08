@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.vite/
+.backups/
+.DS_Store
+*.tgz
