@@ -1,0 +1,10 @@
+/* Syne ExtraBold with overlapping contours removed (see src/fonts).
+   Used only for outlined (stroke-only) display text, where the stock
+   font's internal overlaps would otherwise show up as stray lines. */
+@font-face {
+  font-family: 'Syne Outline';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../fonts/syne-800-outline.woff2') format('woff2');
+}

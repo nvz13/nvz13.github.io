@@ -1,0 +1,620 @@
+/* ============================================================
+   PROJECTS PAGE (/projects) — filterable card grid + detail view
+   Used only by src/pages/Interface.tsx.
+   ============================================================ */
+
+.proj-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -8px 0 26px;
+}
+
+.proj-filters__n {
+  opacity: 0.55;
+  margin-left: 4px;
+}
+
+.proj-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: clamp(12px, 1.4vw, 20px);
+}
+
+.proj-cell {
+  display: flex;
+}
+
+.proj-card {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 250px;
+  padding: 20px 20px 18px;
+  text-align: left;
+  color: var(--ink);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-brd);
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 0.5s var(--ease-out),
+    border-color 0.35s,
+    box-shadow 0.5s var(--ease-out);
+}
+
+/* soft pink wash that rises from the bottom on hover */
+.proj-card::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 60%;
+  background: linear-gradient(to top, var(--accent-soft), transparent);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out);
+  pointer-events: none;
+}
+
+.proj-card > * {
+  position: relative;
+}
+
+.proj-card:hover,
+.proj-card:focus-visible {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 26px 60px -30px var(--glow);
+}
+
+.proj-card:hover::before,
+.proj-card:focus-visible::before {
+  opacity: 1;
+}
+
+.proj-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.proj-card__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-faint);
+}
+
+.proj-card__top b {
+  color: var(--accent-deep);
+  font-weight: 500;
+}
+
+.proj-card__year {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.proj-sample {
+  padding: 2px 7px 1px;
+  border: 1px dashed var(--accent);
+  border-radius: 999px;
+  color: var(--accent-deep);
+  font-size: 10px;
+}
+
+.proj-card__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+  letter-spacing: 0.01em;
+  line-height: 1.18;
+  margin-top: 4px;
+}
+
+.proj-card__summary {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+.proj-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.proj-card__foot {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.proj-card__open {
+  color: var(--ink-faint);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.35s;
+}
+
+.proj-card__arrow {
+  display: inline-block;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.proj-card:hover .proj-card__open {
+  color: var(--accent-deep);
+}
+
+.proj-card:hover .proj-card__arrow {
+  transform: translateX(4px);
+}
+
+/* status: in progress gets a slow breathing dot, the others stay still */
+.proj-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-soft);
+}
+
+.proj-status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+}
+
+.proj-status--live i {
+  background: var(--accent);
+  box-shadow: 0 0 0 0 var(--glow);
+  animation: proj-breathe 2.8s ease-in-out infinite;
+}
+
+.proj-status--done i {
+  background: var(--accent-deep);
+}
+
+.proj-status--planned i {
+  background: transparent;
+  border: 1px solid var(--ink-faint);
+}
+
+@keyframes proj-breathe {
+  50% {
+    box-shadow: 0 0 0 5px transparent;
+    opacity: 0.55;
+  }
+}
+
+.proj-empty {
+  color: var(--ink-soft);
+  padding: 40px 0;
+}
+
+/* ---------- detail view ---------- */
+
+.proj-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 4vw, 56px);
+  overflow-y: auto;
+}
+
+.proj-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--bg-deep) 72%, transparent);
+  backdrop-filter: blur(10px);
+  animation: proj-fade 0.4s var(--ease-out) both;
+}
+
+.proj-detail {
+  position: relative;
+  width: min(980px, 100%);
+  max-height: calc(100dvh - 2 * clamp(12px, 4vw, 56px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--panel-solid);
+  border: 1px solid var(--accent);
+  border-radius: 16px;
+  box-shadow: 0 40px 120px -40px rgba(36, 3, 16, 0.6);
+  color: var(--ink);
+  text-align: left;
+}
+
+.proj-detail__bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 20px;
+  background: var(--panel-solid);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-faint);
+}
+
+.proj-detail__bar b {
+  color: var(--accent-deep);
+  font-weight: 500;
+}
+
+.proj-detail__nav {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+
+.proj-detail__nav button {
+  min-width: 34px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font: inherit;
+  color: var(--ink);
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.proj-detail__nav button:hover,
+.proj-detail__nav button:focus-visible {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.proj-detail__body {
+  padding: clamp(20px, 3vw, 36px);
+  display: grid;
+  gap: 16px;
+  animation: proj-fade 0.45s 0.2s var(--ease-out) both;
+}
+
+.proj-detail__note {
+  padding: 9px 12px;
+  border: 1px dashed var(--accent);
+  border-radius: 10px;
+  color: var(--accent-deep);
+  text-transform: none;
+  letter-spacing: 0.06em;
+}
+
+.proj-detail__title {
+  font-size: clamp(1.8rem, 4.2vw, 3.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.005em;
+}
+
+.proj-detail__summary {
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 60ch;
+}
+
+.proj-detail__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 260px);
+  gap: clamp(20px, 3vw, 44px);
+  margin-top: 12px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.proj-detail__main,
+.proj-detail__side {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+}
+
+.proj-detail h3 {
+  color: var(--ink-faint);
+  margin-bottom: 10px;
+}
+
+.proj-detail__main p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 64ch;
+}
+
+.proj-detail__main p + p {
+  margin-top: 12px;
+}
+
+.proj-detail__side p {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.proj-detail__images {
+  display: grid;
+  gap: 16px;
+}
+
+.proj-detail__images img {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+}
+
+.proj-detail__images figcaption {
+  margin-top: 8px;
+  color: var(--ink-faint);
+}
+
+.proj-detail__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.proj-detail__links a {
+  color: var(--ink);
+  border-bottom: 1px solid var(--line-strong);
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.proj-detail__links a:hover {
+  color: var(--accent-deep);
+  border-color: var(--accent);
+}
+
+@keyframes proj-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* closing: the panel shrinks back into its card (Interface.tsx), backdrop fades */
+.proj-modal.is-closing .proj-modal__backdrop {
+  animation: proj-fade-out 0.38s ease both;
+}
+
+.proj-modal.is-closing .proj-detail__body,
+.proj-modal.is-closing .proj-detail__bar {
+  animation: proj-fade-out 0.2s ease both;
+}
+
+@keyframes proj-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .proj-card {
+    min-height: 0;
+  }
+  .proj-detail__cols {
+    grid-template-columns: 1fr;
+  }
+  .proj-detail__bar {
+    gap: 12px;
+    padding: 12px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proj-card,
+  .proj-card::before,
+  .proj-card__arrow {
+    transition: none;
+  }
+  .proj-card:hover,
+  .proj-card:focus-visible {
+    transform: none;
+  }
+  .proj-status--live i,
+  .proj-modal__backdrop,
+  .proj-modal.is-closing .proj-modal__backdrop,
+  .proj-detail__body {
+    animation: none;
+  }
+}
+
+/* In-progress status line at the top of a project's detail view */
+.proj-detail__progress {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  color: var(--ink-soft);
+  text-transform: none;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.proj-detail__progress i {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateY(-1px);
+  animation: proj-progress-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes proj-progress-pulse {
+  50% { opacity: 0.35; }
+}
+
+.proj-detail__bullets,
+.proj-detail__refs {
+  display: grid;
+  gap: 8px;
+  padding-left: 1.1em;
+  max-width: 64ch;
+}
+
+.proj-detail__bullets li {
+  list-style: disc;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.proj-detail__refs li {
+  list-style: none;
+  margin-left: -1.1em;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.proj-roadmap {
+  display: grid;
+  gap: 0;
+  border-left: 1px solid var(--line-strong);
+  margin-left: 4px;
+}
+
+.proj-roadmap__step {
+  position: relative;
+  padding: 0 0 18px 20px;
+}
+
+.proj-roadmap__step::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--panel-solid);
+}
+
+.proj-roadmap__step.is-done::before {
+  background: var(--ink-faint);
+  border-color: var(--ink-faint);
+}
+
+.proj-roadmap__step.is-now::before {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.proj-roadmap__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin-bottom: 4px;
+}
+
+.proj-roadmap__head span {
+  color: var(--ink-faint);
+}
+
+.proj-roadmap__head em {
+  font-style: normal;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  letter-spacing: 0.08em;
+}
+
+.proj-detail__main .proj-roadmap__step p {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.proj-detail__main .proj-roadmap__step p + p {
+  margin-top: 4px;
+}
+
+.proj-detail__main .proj-roadmap__out {
+  color: var(--ink-faint);
+  text-transform: none;
+  letter-spacing: 0.03em;
+}
+
+.proj-roadmap__step.is-next {
+  opacity: 0.78;
+}
+
+/* "What I'm building" cards in the project detail view */
+.proj-highlights {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 520px) {
+  .proj-highlights {
+    grid-template-columns: 1fr;
+  }
+}
+
+.proj-highlights li {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  transition: border-color 0.3s, transform 0.3s var(--ease-out);
+}
+
+.proj-highlights li:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.proj-highlights span {
+  color: var(--accent);
+}
+
+.proj-highlights b {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.proj-detail__main .proj-highlights p {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* slimmer roadmap rows */
+.proj-roadmap__step {
+  padding-bottom: 12px;
+}
+
+.proj-roadmap__step:last-child {
+  padding-bottom: 0;
+}

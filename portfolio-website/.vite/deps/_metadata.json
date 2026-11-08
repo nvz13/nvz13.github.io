@@ -1,0 +1,52 @@
+{
+  "hash": "328c08f6",
+  "configHash": "af0d3aca",
+  "lockfileHash": "81de9386",
+  "browserHash": "cb5c0086",
+  "optimized": {
+    "animejs": {
+      "src": "../../node_modules/animejs/dist/modules/index.js",
+      "file": "animejs.js",
+      "fileHash": "3dbc7576",
+      "needsInterop": false
+    },
+    "react-dom": {
+      "src": "../../node_modules/react-dom/index.js",
+      "file": "react-dom.js",
+      "fileHash": "1ea1e90e",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "8d7001f0",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "65d8b4b0",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "a6474888",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "react-afA8T73B": {
+      "file": "react-afA8T73B.js",
+      "isDynamicEntry": false
+    },
+    "react-dom-B4hB4HKl": {
+      "file": "react-dom-B4hB4HKl.js",
+      "isDynamicEntry": false
+    },
+    "rolldown-runtime-C-UrYobY": {
+      "file": "rolldown-runtime-C-UrYobY.js",
+      "isDynamicEntry": false
+    }
+  }
+}

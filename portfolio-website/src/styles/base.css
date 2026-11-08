@@ -1,0 +1,472 @@
+/* ============================================================
+   BASE / RESET / TYPE / SHARED PRIMITIVES
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.7s var(--ease-out), color 0.7s var(--ease-out);
+}
+
+body.is-loading {
+  overflow: hidden;
+}
+
+body.has-custom-cursor,
+body.has-custom-cursor * {
+  cursor: none !important;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+::selection {
+  background: var(--accent);
+  color: #240310;
+}
+
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border: 3px solid var(--bg-deep);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ---------- type ---------- */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.84;
+  letter-spacing: -0.035em;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.152em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  font-variant-ligatures: none;
+}
+
+.mono--sm {
+  font-size: 11.5px;
+  letter-spacing: 0.176em;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink-soft);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.quiet {
+  color: var(--ink-soft);
+}
+
+/* ---------- layout ---------- */
+
+.shell {
+  width: 100%;
+  max-width: 1680px;
+  margin-inline: auto;
+  padding-inline: var(--shell-pad);
+}
+
+.page {
+  position: relative;
+  padding-top: calc(var(--nav-h) + 34px);
+  padding-bottom: 88px;
+  min-height: 100svh;
+}
+
+.page-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 24px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 38px;
+}
+
+.page-title {
+  font-size: clamp(2.2rem, 5.2vw, 5.6rem);
+  letter-spacing: -0.045em;
+  max-width: 100%;
+}
+
+.page-title small {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.192em;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.page-head__meta {
+  text-align: right;
+  color: var(--ink-soft);
+  display: grid;
+  gap: 5px;
+  padding-bottom: 8px;
+  max-width: 340px;
+}
+
+/* ---------- shared bits ---------- */
+
+.hairline {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+}
+
+.panel {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.128em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.tag--accent {
+  border-color: transparent;
+  background: var(--accent);
+  color: #240310;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  display: inline-block;
+}
+
+.dot--live {
+  background: var(--accent);
+  animation: blink 2.4s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  71%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+/* link with an animated underline */
+.ulink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 3px;
+}
+
+.ulink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.ulink:hover::after {
+  transform: scaleX(1);
+}
+
+/* button */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 13px 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
+}
+
+.btn > span {
+  position: relative;
+  z-index: 2;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--wine-2);
+  transform: translateY(101%);
+  transition: transform 0.55s var(--ease-out);
+  z-index: 1;
+}
+
+.btn:hover {
+  color: var(--cream-0);
+  border-color: var(--wine-2);
+}
+
+.btn:hover::before {
+  transform: translateY(0);
+}
+
+.btn--solid {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+.btn--solid::before {
+  background: var(--accent);
+}
+
+.btn--solid:hover {
+  color: #240310;
+  border-color: var(--accent);
+}
+
+/* grain + scanline overlays */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 80;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  will-change: transform;
+  animation: grainShift 7s steps(6) infinite;
+}
+
+@keyframes grainShift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    transform: translate3d(-3%, 2%, 0);
+  }
+  40% {
+    transform: translate3d(2%, -3%, 0);
+  }
+  60% {
+    transform: translate3d(-2%, -2%, 0);
+  }
+  80% {
+    transform: translate3d(3%, 1%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 79;
+  pointer-events: none;
+  opacity: var(--scan-opacity);
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--ink) 0,
+    var(--ink) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ============================================================
+   THEME CHANGE — "soft wipe"
+   The new theme washes down the page from top to bottom behind a
+   wide, feathered edge, while the old one gently dims away.
+   Uses the View Transitions API, driven from src/lib/theme.tsx.
+   Earlier versions are saved in .backups/ (base.css.before-crt-transition
+   = circular reveal, base.css.before-soft-wipe = TV channel switch).
+   ============================================================ */
+@property --vt-p {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
+/* keep every element's own colour transition out of the way while
+   the snapshot is taken, so the wipe is the only motion */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation: vt-dim 650ms ease-in-out both;
+}
+
+::view-transition-new(root) {
+  --vt-feather: 28vh;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--vt-p) - var(--vt-feather)), transparent var(--vt-p));
+  mask-image: linear-gradient(to bottom, #000 calc(var(--vt-p) - var(--vt-feather)), transparent var(--vt-p));
+  animation: vt-wipe 650ms cubic-bezier(0.45, 0, 0.25, 1) both;
+}
+
+@keyframes vt-wipe {
+  from {
+    --vt-p: 0vh;
+  }
+  to {
+    --vt-p: 130vh;
+  }
+}
+
+@keyframes vt-dim {
+  to {
+    opacity: 0.85;
+  }
+}
+
+/* the toggle rings out while the shift is happening */
+html.theme-switching .reality {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 0 0 var(--glow);
+  animation: reality-ping 650ms var(--ease-out);
+}
+
+@keyframes reality-ping {
+  0% {
+    box-shadow: 0 0 0 0 var(--glow);
+  }
+  100% {
+    box-shadow: 0 0 0 18px transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Long tags wrap instead of pushing past narrow screens */
+@media (max-width: 600px) {
+  .tag {
+    white-space: normal;
+    max-width: 100%;
+  }
+}

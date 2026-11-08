@@ -1,0 +1,96 @@
+/* ============================================================
+   DESIGN TOKENS — cream / pink / burgundy
+   ============================================================ */
+
+:root {
+  --font-display: 'Syne', 'Arial Black', system-ui, sans-serif;
+  --font-body: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+  --cream-0: #fbf6ee;
+  --cream-1: #f4ecdf;
+  --cream-2: #ece0cf;
+  --cream-3: #e2d2bd;
+
+  --pink-1: #ffd6e2;
+  --pink-2: #f7afc4;
+  --pink-3: #e8799a;
+  --pink-4: #c94e75;
+
+  --wine-1: #7a0f2e;
+  --wine-2: #5a0e24;
+  --wine-3: #3d0718;
+  --wine-4: #240310;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --nav-h: 66px;
+  --bar-h: 30px;
+  --shell-pad: clamp(18px, 3.2vw, 56px);
+  --radius: 3px;
+  --radius-lg: 18px;
+
+  /* light theme */
+  --bg: var(--cream-1);
+  --bg-deep: var(--cream-2);
+  --bg-raise: var(--cream-0);
+  --panel: rgba(251, 246, 238, 0.62);
+  --panel-solid: #fbf6ee;
+  --ink: var(--wine-3);
+  --ink-soft: rgba(61, 7, 24, 0.76);
+  --ink-faint: rgba(61, 7, 24, 0.58);
+  --line: rgba(90, 14, 36, 0.16);
+  --line-strong: rgba(90, 14, 36, 0.34);
+  --accent: var(--pink-3);
+  --accent-soft: var(--pink-1);
+  --accent-deep: var(--wine-2);
+  --on-accent: var(--cream-0);
+  --glow: rgba(232, 121, 154, 0.4);
+  --glass-bg: rgba(255, 250, 244, 0.5);
+  --glass-brd: rgba(90, 14, 36, 0.12);
+  --glass-shadow: 0 18px 50px -28px rgba(61, 7, 24, 0.55);
+  --grain-blend: multiply;
+  --grain-opacity: 0.3;
+  --scan-opacity: 0.05;
+  --spec-a: #ffd6e2;
+  --spec-b: #f7afc4;
+  --spec-c: #c94e75;
+  --spec-d: #f4ecdf;
+  --spec-vein: rgba(90, 14, 36, 0.34);
+  --spec-core: #fff3f7;
+  --veil-bg: var(--wine-2);
+  --veil-ink: var(--cream-0);
+}
+
+html[data-theme='dark'] {
+  --bg: #140a0f;
+  --bg-deep: #0c0509;
+  --bg-raise: #1c0f15;
+  --panel: rgba(30, 15, 21, 0.66);
+  --panel-solid: #1a0d13;
+  --ink: #f8ece0;
+  --ink-soft: rgba(248, 236, 224, 0.78);
+  --ink-faint: rgba(248, 236, 224, 0.58);
+  --line: rgba(248, 236, 224, 0.14);
+  --line-strong: rgba(248, 236, 224, 0.3);
+  --accent: var(--pink-2);
+  --accent-soft: rgba(247, 175, 196, 0.16);
+  --accent-deep: var(--pink-3);
+  --on-accent: #240310;
+  --glow: rgba(247, 175, 196, 0.32);
+  --glass-bg: rgba(247, 236, 228, 0.07);
+  --glass-brd: rgba(247, 236, 228, 0.16);
+  --glass-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+  --grain-blend: screen;
+  --grain-opacity: 0.2;
+  --scan-opacity: 0.05;
+  --spec-a: #ffd6e2;
+  --spec-b: #f7afc4;
+  --spec-c: #e8799a;
+  --spec-d: #8a1235;
+  --spec-vein: rgba(255, 214, 226, 0.4);
+  --spec-core: #fff0f6;
+  --veil-bg: #240310;
+  --veil-ink: #f8ece0;
+}
