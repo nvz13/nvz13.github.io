@@ -50,7 +50,8 @@ export function SiteFooter() {
                   title={link.href ? link.label : `Add your ${link.label} URL in portfolioData.ts`}
                   data-reveal-item
                 >
-                  {link.href ? link.label : `ADD ${link.label} URL`} <span aria-hidden="true">↗</span>
+                  <span className="site-foot__label-text">{link.href ? link.label : `ADD ${link.label} URL`}</span>
+                  <span className="site-foot__arrow" aria-hidden="true">↗</span>
                 </a>
               ))}
             </div>

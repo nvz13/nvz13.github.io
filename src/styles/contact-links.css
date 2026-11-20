@@ -1,0 +1,93 @@
+/* ============================================================
+   CONTACT LINK ROWS — "signal lock" interaction
+   Hover/focus: a scan line draws left→right under the row, the label
+   steps in, and the arrow shoots up-right. Static state is untouched.
+   ============================================================ */
+.site-foot__links a {
+  position: relative;
+  border-bottom-color: var(--line);
+}
+
+.site-foot__links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--accent-deep);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.5s var(--ease-out);
+  pointer-events: none;
+}
+
+.site-foot__label-text {
+  display: inline-block;
+  transition: transform 0.4s var(--ease-out), letter-spacing 0.4s var(--ease-out);
+}
+
+.site-foot__arrow {
+  display: inline-block;
+  transition: transform 0.4s var(--ease-out);
+}
+
+/* touch: brief press feedback only, no sticky hover */
+.site-foot__links a:active {
+  color: var(--accent-deep);
+}
+.site-foot__links a:active::after {
+  transform: scaleX(1);
+  transition-duration: 0.2s;
+}
+
+.site-foot__links a:focus-visible {
+  outline: 1px solid var(--accent-deep);
+  outline-offset: 2px;
+  color: var(--accent-deep);
+}
+.site-foot__links a:focus-visible::after {
+  transform: scaleX(1);
+}
+.site-foot__links a:focus-visible .site-foot__label-text {
+  transform: translateX(6px);
+}
+.site-foot__links a:focus-visible .site-foot__arrow {
+  transform: translate(3px, -3px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-foot__links a:hover::after {
+    transform: scaleX(1);
+  }
+  .site-foot__links a:hover .site-foot__label-text {
+    transform: translateX(6px);
+  }
+  .site-foot__links a:hover .site-foot__arrow {
+    transform: translate(3px, -3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-foot__links a::after {
+    transform: scaleX(0);
+    transition: opacity 0.2s;
+    opacity: 0;
+  }
+  .site-foot__links a:hover::after,
+  .site-foot__links a:focus-visible::after,
+  .site-foot__links a:active::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  .site-foot__label-text,
+  .site-foot__arrow {
+    transition: none;
+  }
+  .site-foot__links a:hover .site-foot__label-text,
+  .site-foot__links a:focus-visible .site-foot__label-text,
+  .site-foot__links a:hover .site-foot__arrow,
+  .site-foot__links a:focus-visible .site-foot__arrow {
+    transform: none;
+  }
+}

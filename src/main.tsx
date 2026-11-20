@@ -12,6 +12,7 @@ import './styles/outline-font.css';
 import './styles/base.css';
 import './styles/chrome.css';
 import './styles/pages.css';
+import './styles/contact-links.css';
 import './styles/interactive.css';
 
 import App from './App';
