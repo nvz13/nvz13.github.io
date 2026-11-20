@@ -197,7 +197,7 @@ export const blogPosts: BlogPost[] = [
 export const skills: { group: string; items: string[] }[] = [
   {
     group: 'Tools',
-    items: ['Figma', 'CapCut', 'Lightroom', 'Google Workspace', 'AI LLMs'],
+    items: ['Figma', 'Canva', 'CapCut', 'Lightroom', 'Google Workspace', 'AI LLMs'],
   },
   {
     group: 'Skills',
